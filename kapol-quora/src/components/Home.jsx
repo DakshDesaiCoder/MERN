@@ -143,7 +143,7 @@ function Home({userPhoto,userEmail,userName}) {
         </div>
         <hr />
         <div className='home'>
-            <h2 style={{color:'black',fontStyle:"italic",textAlign:"center"}}>Here Are The Questions Asked by people from our comunity: </h2>
+            <h2 style={{color:'black',fontStyle:"italic",textAlign:"center"}}>Here Are The Questions Asked by people from our community: </h2>
             {data?(        
                 <div className="container-fluid col-10 mx-auto">
         <Row gy="3" style={{paddingTop:"5%",justifyContent:"space-around"}}>
