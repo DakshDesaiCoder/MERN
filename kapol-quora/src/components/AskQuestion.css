@@ -1,0 +1,56 @@
+.ask_question{
+    margin-top: 90px;
+    margin-left:40px;
+    margin-right:40px;
+    margin-bottom: 10px;
+}
+.card{
+    height:"100%";
+    box-shadow: 10px 10px 8px #888888;
+}
+.card>h3{
+    margin-top:15px;
+    text-align: center;
+    color:gray;
+}
+.tips{
+    margin-right: 20px;
+    margin-left:10px;
+    background-color: lightblue;
+}
+.tips>h5{
+    color: #2e69ff;
+}
+.tips>ul>li{
+    color: #2e69ff;
+}
+.userDetails{
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-left:30px;
+}
+.userDetails>img{
+    height:40px;
+    border-radius: 50px;
+    margin-right:20px
+}
+.questionAsked{
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-left:30px;
+}
+.questionAsked>textarea{
+    height:50px;
+    width: 100%;
+    font-size: 15px;
+    border-bottom: 1px solid gray;
+    border:none;
+}
+.questionAsked>textarea:focus{
+    outline: none;
+    color: black;
+}
+.button{
+    margin-left:25px;
+    margin-bottom:15px;
+}
