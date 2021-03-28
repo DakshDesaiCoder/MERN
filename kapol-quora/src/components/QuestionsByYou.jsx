@@ -65,7 +65,7 @@ function QuestionsByYou({userName,userPhoto,userEmail}) {
         <div className="container-fluid col-10 mx-auto">
         <Row gy="3" style={{paddingTop:"5%",justifyContent:"space-around"}}>
            {data.map(question=>
-           <div key={question.id} id={question.id}><Card style={{ width: '30rem' }} className="cards">
+           <div key={question.id} id={question.id}><Card style={{ margin:"20px",width: '100%' }} className="cards">
                 
                <Card.Body>
                    <img src={question.profilePicture} alt='Profile Picture' style={{borderRadius:"50%",height:"40px",width:"40px",marginLeft:"5px",marginRight:"10px"}} />
