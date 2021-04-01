@@ -62,7 +62,7 @@ function AskQuestion({userName,userPhoto,userEmail}) {
                 });
 
         }).catch(err=>{
-            toast.dark('You need to login via school email id', {
+            toast.dark(err, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
