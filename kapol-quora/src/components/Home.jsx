@@ -5,16 +5,17 @@ import { Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
 import {Button,Form} from 'react-bootstrap'
+import SearchIcon from '@material-ui/icons/Search';
 import firebase from 'firebase'
 import {
     MenuItem,
-    FormControl,
     Select,
   } from "@material-ui/core";
 function Home({userPhoto,userEmail,userName}) {
     const [answer,setAnswer]=useState({
         ans:""
     })
+    const [search,setSearch]=useState("")
     const [std,setStd]=useState('all')
     const [answerShow,setAnswerShow]=useState("")
    
@@ -28,7 +29,7 @@ function Home({userPhoto,userEmail,userName}) {
             }
         })
     }
-
+    
     const [data,setData]=useState(
         []
      )
@@ -116,7 +117,7 @@ function Home({userPhoto,userEmail,userName}) {
 
     return (
         <>
-        <div className="home__header" style={{display:'flex',alignItems:"center",justifyContent:"space-between",marginLeft:"10px",marginTop:"5px"}}>
+        <div className="home__header" style={{display:'flex',justifyContent:"space-between",alignItems:"center",marginLeft:"10px",marginTop:"5px"}}>
         <div>
         <Select 
                 variant="outlined"
@@ -138,8 +139,10 @@ function Home({userPhoto,userEmail,userName}) {
             </Select>
             
         </div>
+        <div style={{width:"30%",height:"150%",marginLeft:"10px",borderRadius:"6px",backgroundColor:"white"}}>
         
-            
+        <input  style={{fontSize:"1rem",marginLeft:"10px",width:"90%",height:"200%",color:"black",border:"none",backgroundColor:"white",outline: "none"}} type="text" placeholder="Search Question" onChange={event=>{setSearch(event.target.value)}} />
+        </div>   
         </div>
         <hr />
         <div className='home'>
@@ -147,7 +150,13 @@ function Home({userPhoto,userEmail,userName}) {
             {data?(        
                 <div className="container-fluid col-10 mx-auto">
         <Row gy="3" style={{paddingTop:"5%",justifyContent:"space-around"}}>
-           {data.map(question=>
+           {data.filter((question)=>{
+               if(search ==""){
+                   return question
+               }else if(question.question.toLowerCase().includes(search.toLowerCase())){
+                   return question
+               }
+           }).map(question=>
            <div key={question.id} id={question.id}><Card style={{ width: '100%' }} className="cards">
                 {question.id===''?(
                     <h1>No results found</h1>
