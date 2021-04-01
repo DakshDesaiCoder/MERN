@@ -62,7 +62,15 @@ function AskQuestion({userName,userPhoto,userEmail}) {
                 });
 
         }).catch(err=>{
-            alert(err)
+            toast.dark('You need to login via school email id', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                })
         })
 
        

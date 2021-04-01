@@ -232,7 +232,15 @@ function Home({userPhoto,userEmail,userName}) {
                             draggable: true,
                             progress: undefined,
                             });
-                        }).catch(err=>alert(err))
+                        }).catch(err=>toast.dark('You need to login via school email id', {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                }))
                         
                         }
                         
