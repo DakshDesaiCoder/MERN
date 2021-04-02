@@ -5,7 +5,7 @@ import { Row} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
 import {Button,Form} from 'react-bootstrap'
-import SearchIcon from '@material-ui/icons/Search';
+
 import firebase from 'firebase'
 import {
     MenuItem,
@@ -35,7 +35,7 @@ function Home({userPhoto,userEmail,userName}) {
      )
      useEffect(()=>{
         const questionsForAll=()=>{
-            db.collection("questions")
+            db.collection("questions").where("report","==","false")
             
               .onSnapshot(function(querySnapshot){
                   
@@ -59,7 +59,7 @@ function Home({userPhoto,userEmail,userName}) {
             })
         }
         const renderByStd=async(standard)=>{
-            db.collection("questions").where("std","==",standard)
+            db.collection("questions").where("std","==",standard).where("report","==","false")
               .onSnapshot(function(querySnapshot){
                   
              setData(
@@ -202,7 +202,24 @@ function Home({userPhoto,userEmail,userName}) {
                    {question.email === userEmail ?(
                         <p>You Cannot Answer A Question Asked By You.</p>
                    ):(answerShow===""?(
+                       <>
+                        <Button variant="outline-danger" style={{paddingLeft:"10px",paddingRight:"10px",marginLeft:"5px",marginRight:"5px",borderRadius:"20px"}} onClick={()=>{
+                            db.collection("questions").doc(question.id).update({
+                                report:"true"
+                            }).then(()=>{
+                                toast.dark('Question has been reported', {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                });
+                            }).catch(err=>alert(err))
+                        }} >Report</Button>
                         <Button variant="outline-info" style={{paddingLeft:"10px",borderRadius:"20px",marginRight:"10px"}} onClick={()=>setAnswerShow(question.id)}>Show Answer Form</Button>
+                        </>
                    ):(answerShow===question.id?(<div className="answer">
                         <Form>  
                         <Form.Group controlId="formBasicAnswer">

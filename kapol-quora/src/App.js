@@ -1,17 +1,21 @@
 import './App.css';
 import Router from './Router'
-import { auth, provider } from "./firebase";
+import { auth, provider,db } from "./firebase";
 import { useState,useEffect } from 'react';
 import {Button} from 'react-bootstrap'
+
 function App() {
   const [user, setUser] = useState()
+  
+  const [uuid,setUuid]=useState('')
+  const [adminData,setAdminData]=useState()
+  const [adminCheck,setAdminCheck] = useState(false)
   const handleLogin = ()=>{
     auth
     .signInWithPopup(provider)
     .then((result) => {
       /** @type {firebase.auth.OAuthCredential} */  
       var user = result.user;
-      
     }).catch((error) => {
       alert(error)
     });
@@ -30,13 +34,31 @@ function App() {
       if (user.email.includes("kvis-icse.in")===true) {
         
         setUser(user)
+        setUuid(user.uid)
       }else{
         setUser(user)
+        setUuid(user.uid)
+        
       } 
-    });
+    })
   }
+  
   doWork()
+  
 },[])
+  useEffect(()=>{
+    const readAdmin = async()=>{
+
+      await db.collection("admins").where("uuid","==",uuid).onSnapshot(function(querySnapshot){
+        setAdminData(
+          querySnapshot.docs.map((doc) => ({
+            uuid:doc.data().uuid
+          }))
+        )
+      })
+    }
+    readAdmin()
+  })  
   
   return (
     <div className="App">
@@ -44,8 +66,16 @@ function App() {
         
         user ? (
           user.email.includes("kvis-icse.in")===true?(<>
+            {adminData?(
+              <>
+              {adminData.length===1?(<Router userPhoto={user.photoURL} userName={user.displayName} userEmail={user.email} admin={true} />):(<Router userPhoto={user.photoURL} userName={user.displayName} userEmail={user.email} admin={false} />)}
+              
+              </>
+            ):(
+              
+              <></>
+            )}
             
-            <Router userPhoto={user.photoURL} userName={user.displayName} userEmail={user.email}/>
           </>):(
             <>
             <h1>You Are not logged in via school email id</h1>

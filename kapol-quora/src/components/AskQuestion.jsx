@@ -39,7 +39,8 @@ function AskQuestion({userName,userPhoto,userEmail}) {
             profilePicture:userPhoto,
             std,
             relation,
-            timestamp:firebase.firestore.FieldValue.serverTimestamp()
+            timestamp:firebase.firestore.FieldValue.serverTimestamp(),
+            report:"false"
         }).then(()=>{
             setData({
                 question:"",

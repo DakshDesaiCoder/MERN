@@ -4,63 +4,63 @@ import Card from 'react-bootstrap/Card'
 import { ToastContainer, toast } from 'react-toastify';
 import { Row} from 'react-bootstrap';
 import {Button} from 'react-bootstrap'
-function QuestionsByYou({userName,userPhoto,userEmail}) {
+function Admin() {
     const [data,setData]=useState(
-       []
-    )
-    const [renderAns,setRenderAns]=useState([])
-    useEffect(()=>{
-      db.collection("questions").where("email", "==", userEmail)
-        .onSnapshot(function(querySnapshot){
-            setData(
-                querySnapshot.docs.map((doc) => ({
-
-                    id:doc.id,
-                    question:doc.data().question,
-                    document:doc.data().document,
-                    displayName:doc.data().displayName,
-                    email:doc.data().email,
-                    profilePicture:doc.data().profilePicture,
-                    std:doc.data().std,
-                    description:doc.data().description,
-                    timestamp2:doc.data().timestamp,
-                    relation:doc.data().relation,
-                    desctiption:doc.data().description,
-                    report:doc.data().report
-                }
-            )
-            )
-        )
-    }
-    )},[])
-
-    useEffect(()=>{
-        
-        db.collection("answers")
-          .onSnapshot(function(querySnapshot){
-              
-        setRenderAns(
-             querySnapshot.docs.map((doc) => ({
-
-                 id:doc.id,
-                 answer:doc.data().answer,
-                 userEmail:doc.data().userEmail,
-                 userName:doc.data().userName,
-                 userPhoto:doc.data().userPhoto,
-                 questionId:doc.data().questionId,
-                 timestamp:doc.data().timestamp
-                 
-                    }
-                )
-                )
-            )
-        })
-    
- },[])
+        []
+     )
+     const [renderAns,setRenderAns]=useState([])
+     useEffect(()=>{
+       db.collection("questions").where("report", "==", "true")
+         .onSnapshot(function(querySnapshot){
+             setData(
+                 querySnapshot.docs.map((doc) => ({
+ 
+                     id:doc.id,
+                     question:doc.data().question,
+                     document:doc.data().document,
+                     displayName:doc.data().displayName,
+                     email:doc.data().email,
+                     profilePicture:doc.data().profilePicture,
+                     std:doc.data().std,
+                     description:doc.data().description,
+                     timestamp2:doc.data().timestamp,
+                     relation:doc.data().relation,
+                     desctiption:doc.data().description,
+                     
+                 }
+             )
+             )
+         )
+     }
+     )},[])
+ 
+     useEffect(()=>{
+         
+         db.collection("answers")
+           .onSnapshot(function(querySnapshot){
+               
+         setRenderAns(
+              querySnapshot.docs.map((doc) => ({
+ 
+                  id:doc.id,
+                  answer:doc.data().answer,
+                  userEmail:doc.data().userEmail,
+                  userName:doc.data().userName,
+                  userPhoto:doc.data().userPhoto,
+                  questionId:doc.data().questionId,
+                  timestamp:doc.data().timestamp
+                  
+                     }
+                 )
+                 )
+             )
+         })
+     
+  },[])
     return (
         <>
             <div style={{textAlign:"center"}}>
-                <span style={{fontSize:"150%"}}>Hello {userName}. You should see questions asked by you below.</span>
+                <span style={{fontSize:"150%"}}>Here are the questions reported by others: </span>
                 <hr />
             </div>
         <div className="container-fluid col-10 mx-auto">
@@ -105,11 +105,21 @@ function QuestionsByYou({userName,userPhoto,userEmail}) {
                             }
                         </div>
                         </>))}
-                        {question.report==="true"?(
-                            <Card.Text style={{color:"red"}} >This question has been reported and no will be able to see question until it is verified by admins</Card.Text>
-                        ):(
-                            <p></p>
-                        )}
+                        <Button variant="outline-success"  style={{paddingLeft:"10px",paddingRight:"10px",marginLeft:"5px",marginRight:"5px",borderRadius:"20px"}} onClick={()=>{
+                            db.collection("questions").doc(question.id).update({
+                                report:"false"
+                            }).then(()=>{
+                                toast.dark('Report has been removed', {
+                                position: "top-right",
+                                autoClose: 5000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                });
+                            }).catch(err=>alert(err))
+                        }} >Remove Report</Button>
                    <Button variant="outline-danger" style={{paddingLeft:"10px",borderRadius:"20px"}} onClick={async()=>{
                        await db.collection("questions").doc(question.id).delete().then(()=>{
                         toast.dark('Question Has Been Deleted', {
@@ -135,8 +145,7 @@ function QuestionsByYou({userName,userPhoto,userEmail}) {
    </div>
 </>
             
-        
     )
 }
 
-export default QuestionsByYou
+export default Admin

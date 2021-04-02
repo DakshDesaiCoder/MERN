@@ -2,7 +2,7 @@ import React from 'react'
 import {Nav,Navbar} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
-function NavBar({userPhoto}) {
+function NavBar({userPhoto,admin}) {
     return (
         <div >
         <Navbar bg="dark" expand="lg" variant="dark">
@@ -18,7 +18,11 @@ function NavBar({userPhoto}) {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/ask">Ask A Question</Nav.Link>
             <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
-            
+            {admin===true?(
+                <Nav.Link as={Link} to="/admin" >Admin</Nav.Link>
+            ):(
+                <Nav.Link></Nav.Link>
+            )}
             
            </Nav>
         </Navbar.Collapse>
